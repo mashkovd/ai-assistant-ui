@@ -9,34 +9,47 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  data() {
-    return {};
-  },
   methods: {
     async loginWithGoogle() {
       try {
-        // Initiate login by calling the backend Google login endpoint
-        const response = await axios.get('/auth/google', { withCredentials: true });
-
-        // Redirect to the Google OAuth login URL provided by the backend
+        const response = await axios.get("/auth/google");
         if (response.data.redirect_url) {
           window.location.href = response.data.redirect_url;
         } else {
-          console.error('Login failed: No redirect URL provided');
+          console.error("Login failed: No redirect URL provided");
         }
       } catch (error) {
-        console.error('Failed to initiate Google login:', error);
+        console.error("Failed to initiate Google login:", error);
       }
     },
+    async handleGoogleCallback() {
+      try {
+        const response = await axios.get("https://ai-assistant.mctl.ru/auth/google/callback");
+        const { token, redirect_url } = response.data;
+
+        // Store the token
+        localStorage.setItem("auth_token", token);
+
+        // Redirect to the chat page
+        window.location.href = redirect_url;
+      } catch (error) {
+        console.error("Failed to handle Google callback:", error);
+      }
+    },
+  },
+  mounted() {
+    const currentPath = window.location.pathname;
+    if (currentPath === "/auth/google/callback") {
+      this.handleGoogleCallback();
+    }
   },
 };
 </script>
 
 <style>
-/* Compact and centered styling */
 .login-container {
   max-width: 350px;
 }

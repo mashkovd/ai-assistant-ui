@@ -9,7 +9,7 @@
       <div :class="spinnerClass"></div>
     </div>
     <form @submit.prevent="sendPrompt">
-      <input v-model="prompt" id="prompt-input" name="prompt" class="form-control"/>
+      <input v-model="prompt" id="prompt-input" name="prompt" class="form-control" />
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary mt-2">Send</button>
       </div>
@@ -52,7 +52,12 @@ export default {
     async sendPrompt() {
       this.spinnerActive = true;
       try {
-        const response = await axios.post("/chat", { prompt: this.prompt });
+        const token = localStorage.getItem("auth_token");
+        const response = await axios.post(
+          "/chat",
+          { prompt: this.prompt },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         console.log("Prompt response:", response.data);
         this.errorMessage = null;
@@ -69,7 +74,12 @@ export default {
         quantity: 10,   // Replace with actual quantity data
       };
       try {
-        const response = await axios.post("/order", data);
+        const token = localStorage.getItem("auth_token");
+        const response = await axios.post(
+          "/order",
+          data,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         console.log("Order response:", response.data);
         this.errorMessage = null;
       } catch (error) {
@@ -77,29 +87,19 @@ export default {
         this.errorMessage = "Failed to place the order. Try again.";
       }
     },
-    async logout() {
-      try {
-        await axios.post("/logout");
-        window.location.href = "/login"; // Redirect after logout
-      } catch (error) {
-        console.error("Logout failed:", error);
-        alert("Failed to log out. Please try again.");
-      }
+    logout() {
+      localStorage.removeItem("auth_token");
+      window.location.href = "/login";
     },
     async checkAuthStatus() {
-      try {
-        const response = await axios.get("/auth/status");
-        if (!response.data.authenticated) {
-          window.location.href = "/login"; // Redirect if not authenticated
-        }
-      } catch (error) {
-        console.error("Failed to check authentication status:", error);
-        window.location.href = "/login"; // Redirect on error
+      const token = localStorage.getItem("auth_token");
+      if (!token) {
+        window.location.href = "/login";
       }
     },
   },
   mounted() {
-    this.checkAuthStatus(); // Ensure the user is authenticated
+    this.checkAuthStatus();
   },
 };
 </script>
