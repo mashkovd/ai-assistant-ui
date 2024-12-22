@@ -85,20 +85,20 @@ export default {
         alert('Failed to log out. Please try again.');
       }
     },
-    async checkAuthStatus() {
-      try {
-        const response = await axios.get('/auth/status');
-        if (!response.data.authenticated) {
-          window.location.href = '/login'; // Redirect if not authenticated
-        }
-      } catch (error) {
-        console.error('Failed to check authentication status:', error);
-        window.location.href = '/login'; // Redirect on error
-      }
-    },
+    // async checkAuthStatus() {
+    //   try {
+    //     const response = await axios.get('/auth/status');
+    //     if (!response.data.authenticated) {
+    //       window.location.href = '/login'; // Redirect if not authenticated
+    //     }
+    //   } catch (error) {
+    //     console.error('Failed to check authentication status:', error);
+    //     window.location.href = '/login'; // Redirect on error
+    //   }
+    // },
   },
   mounted() {
-    this.checkAuthStatus(); // Ensure the user is authenticated
+    // this.checkAuthStatus(); // Ensure the user is authenticated
   },
 };
 </script>
