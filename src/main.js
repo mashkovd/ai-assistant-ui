@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // Set Axios base URL from environment variable
-axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8000';
+axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT || 'https://ai-assistant.mctl.ru';
 axios.defaults.withCredentials = true; // Ensure cookies are sent
 
 console.log('Base URL:', axios.defaults.baseURL); // Debugging
