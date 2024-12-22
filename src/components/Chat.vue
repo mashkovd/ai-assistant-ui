@@ -97,8 +97,16 @@ export default {
         window.location.href = "/login";
       }
     },
+    extractTokenFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      if (token) {
+        localStorage.setItem("auth_token", token);
+      }
+    },
   },
   mounted() {
+    this.extractTokenFromUrl();
     this.checkAuthStatus();
   },
 };
