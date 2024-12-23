@@ -1,17 +1,15 @@
 <template>
   <div class="app">
     <header class="app__header">
-      <strong>Chat with AI Assistant</strong>
-      <div class="app__header-menu">
-        <div
-          v-if="isAuthorized"
-          class="app__user-menu"
-        >
-          <span>{{ userEmail }}</span>
-          <BaseButton @click="logOut">
-            Logout
-          </BaseButton>
-        </div>
+      <strong class="app__logo">Chat with AI Assistant</strong>
+      <div
+        v-if="isAuthorized"
+        class="app__user-menu"
+      >
+        <span class="app__user-name">{{ userEmail }}</span>
+        <BaseButton @click="logOut">
+          Logout
+        </BaseButton>
       </div>
     </header>
     <main class="app__main">
@@ -42,6 +40,11 @@ const { isAuthorized, userEmail, logOut } = useAuth();
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.app__logo {
   flex-shrink: 0;
 }
 
@@ -49,9 +52,27 @@ const { isAuthorized, userEmail, logOut } = useAuth();
   display: flex;
   align-items: center;
   column-gap: 12px;
+  min-width: 0;
+}
+
+.app__user-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .app__main {
   flex-grow: 1;
+  padding: 0 20px;
+}
+
+@media screen and (max-width: 1024px) {
+  .app__header {
+    padding: 0 12px;
+  }
+
+  .app__main {
+    padding: 0 12px;
+  }
 }
 </style>
