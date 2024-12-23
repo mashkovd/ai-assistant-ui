@@ -1,10 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Main from './components/Main.vue';
-import Chat from './components/Chat.vue';
+
+// const Main = () => import('./pages/Main.vue');
+import Main from './pages/Main.vue';
+const Chat = () => import('./pages/Chat.vue');
 
 const routes = [
-  { path: '/', component: Main, name: 'Main' }, // Default route
-  { path: '/chat', component: Chat, name: 'Chat' }, // Chat page
+  {
+    path: '/',
+    component: Main,
+    name: 'Main',
+  },
+  {
+    path: '/chat',
+    component: Chat,
+    name: 'Chat',
+  },
   { path: '/:pathMatch(.*)*', redirect: '/' }, // Redirect unknown paths to Main
 ];
 
