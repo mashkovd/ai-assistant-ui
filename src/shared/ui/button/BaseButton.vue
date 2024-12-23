@@ -23,7 +23,7 @@ const classes = computed(() => [
 
   font-size: 1rem;
   color: #fff;
-  background-color: #10a37f;
+  background-color: #009879;
   border: none;
   border-radius: 4px;
 
@@ -31,7 +31,12 @@ const classes = computed(() => [
 }
 
 .base-button:hover {
-  background-color: #097c5f;
+  background-color: #097a64;
+}
+
+.base-button:disabled {
+  opacity: .6;
+  pointer-events: none;
 }
 
 .base-button--size--l {

@@ -3,11 +3,8 @@
     <header class="app__header">
       <strong>Chat with AI Assistant</strong>
       <div class="app__header-menu">
-        <BaseButton v-if="!isAuthorized">
-          Login
-        </BaseButton>
         <div
-          v-else
+          v-if="isAuthorized"
           class="app__user-menu"
         >
           <span>{{ userEmail }}</span>
