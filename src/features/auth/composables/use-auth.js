@@ -1,6 +1,36 @@
+import { ref } from 'vue';
+import { jwtDecode } from "jwt-decode";
+
 import baseApi from '@/shared/api';
 
-export function useAuth() {
+export function useAuth() {  
+  const isAuthorized = ref(false);
+  const userEmail = ref('');
+
+  function decodeToken(token) {
+    let decoded = null;
+
+    if (!token) {
+      return null;
+    }
+
+    try {
+      decoded = jwtDecode(token);
+    } catch (err) {
+      console.warn('Invalid token');
+    }
+
+    return decoded;
+  }
+
+  function updateState() {
+    const authToken = localStorage.getItem('auth_token');
+    const authTokenDecoded = decodeToken(authToken);
+
+    isAuthorized.value = Boolean(authToken);
+    userEmail.value = authTokenDecoded?.sub;
+  }
+
   async function loginWithGoogle() {
     try {
       const response = await baseApi.get("/auth/google");
@@ -15,23 +45,18 @@ export function useAuth() {
     }
   }
 
-  async function handleGoogleCallback() {
-    try {
-      const response = await baseApi.get("https://ai-assistant.mctl.ru/auth/google/callback");
-      const { token, redirect_url } = response.data;
-
-      // Store the token
-      localStorage.setItem("auth_token", token);
-
-      // Redirect to the chat page
-      window.location.href = redirect_url;
-    } catch (error) {
-      console.error("Failed to handle Google callback:", error);
-    }
+  function logOut() {
+    localStorage.removeItem('auth_token');
+    window.location.reload();
   }
 
+  updateState();
+
   return {
+    isAuthorized,
+    userEmail,
     loginWithGoogle,
-    handleGoogleCallback,
+    logOut,
+    updateState,
   };
 }

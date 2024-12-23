@@ -1,22 +1,41 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="login-container text-center bg-light p-4 rounded shadow">
-      <h1 class="mb-3 text-primary">Welcome to AI Assistant</h1>
-      <p class="mb-4 text-muted">Log in to continue</p>
-      <button @click="loginWithGoogle" class="btn btn-primary btn-lg w-100">Login with Google</button>
-    </div>
-  </div>
+  <article class="auth-form-page">
+    <form class="auth-form" @submit.prevent="loginWithGoogle">
+      <h1 class="auth-form__title">Welcome to AI Assistant</h1>
+      <p class="auth-form__text">Log in to continue</p>
+      <BaseButton size="l" class="auth-form__button">
+        Log in with Google
+      </BaseButton>
+    </form>
+  </article>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import { useAuth } from '@/features/auth';
+import { BaseButton } from '@/shared/ui/button';
 
 const { loginWithGoogle } = useAuth();
 </script>
 
 <style>
-.login-container {
+.auth-form-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.auth-form {
   max-width: 350px;
+  text-align: center;
+}
+
+.auth-form__button {
+  width: 100%;
+}
+
+.auth-form__title {
+  font-size: 32px;
+  margin: 0 0 20px;
 }
 </style>
