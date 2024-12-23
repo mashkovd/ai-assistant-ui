@@ -2,9 +2,9 @@
   <article class="auth-form-page">
     <form class="auth-form" @submit.prevent="loginWithGoogle">
       <h1 class="auth-form__title">Welcome to AI Assistant</h1>
-      <p class="auth-form__text">Log in to continue</p>
+      <p class="auth-form__text">Log in to personalize your AI experience.</p>
       <BaseButton size="l" class="auth-form__button">
-        Log in with Google
+        <span class="auth-form__button-text">Sign in with Google</span>
       </BaseButton>
     </form>
   </article>
