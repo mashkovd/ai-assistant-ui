@@ -13,9 +13,11 @@
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary mt-2">Send</button>
       </div>
-<!--      <div class="d-flex justify-content-end">-->
-<!--        <button type="button" @click="placeOrder" class="btn btn-primary mt-2">Order</button>-->
-<!--      </div>-->
+    </form>
+        <form @submit.prevent="getPortfolio">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary mt-2">Portfolio</button>
+      </div>
     </form>
     <div v-if="errorMessage" class="text-danger">
       {{ errorMessage }}
@@ -68,16 +70,12 @@ export default {
         this.spinnerActive = false;
       }
     },
-    async placeOrder() {
-      const data = {
-        symbol: "BOO", // Replace with actual symbol data
-        quantity: 10,   // Replace with actual quantity data
-      };
+    async getPortfolio() {
+      this.spinnerActive = true;
       try {
         const token = localStorage.getItem("auth_token");
         const response = await axios.post(
-          "/order",
-          data,
+          "/portfolio",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         console.log("Order response:", response.data);
