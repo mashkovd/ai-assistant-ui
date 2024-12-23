@@ -91,4 +91,14 @@ const noData = computed(() => !props.data || !props.data.length);
 .base-table__no-data {
   text-align: center;
 }
+
+@media screen and (max-width: 1024px) {
+  .base-table th, .base-table td {
+    padding: 8px 12px;
+  }
+
+  .base-table th {
+    font-size: 12px;
+  }
+}
 </style>

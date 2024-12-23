@@ -1,7 +1,7 @@
 <template>
   <article class="chat-page">
     <div class="chat-page__container">
-      <h1>Type command for buying stocks</h1>
+      <h1 class="chat-page__title">Type command for buying stocks</h1>
 
       <form class="prompt-form" @submit.prevent="onSubmitPrompt">
         <BaseInput
@@ -19,7 +19,10 @@
         </BaseButton>
       </form>
 
-      <PortfolioTable class="chat-page__portfolio" />
+      <section class="chat-page__portfolio">
+        <h2 class="chat-page__portfolio-title">Portfolio</h2>
+        <PortfolioTable />
+      </section>
     </div>
   </article>
 </template>
@@ -59,6 +62,10 @@ async function onSubmitPrompt() {
   height: 100%;
 }
 
+.chat-page__title {
+  margin-bottom: 16px;
+}
+
 .chat-page__container {
   width: 800px;
   margin: 0 auto;
@@ -66,7 +73,11 @@ async function onSubmitPrompt() {
 }
 
 .chat-page__portfolio {
-  margin-top: 32px;
+  margin-top: 36px;
+}
+
+.chat-page__portfolio-title {
+  text-align: left;
 }
 
 .prompt-form {
@@ -77,5 +88,15 @@ async function onSubmitPrompt() {
 
 .prompt-form__input {
   flex-grow: 1;
+}
+
+@media screen and (max-width: 1024px) {
+  .chat-page__container {
+    width: 100%;
+  }
+
+  .chat-page__title {
+    margin-bottom: 8px;
+  }
 }
 </style>
