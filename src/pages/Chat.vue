@@ -8,7 +8,7 @@
           v-model="prompt"
           id="prompt"
           name="prompt"
-          placeholder="I want to buy Nvidia"
+          placeholder="I want to buy 5 Nvidia stocks..."
           class="prompt-form__input"
         />
         <BaseButton
@@ -20,8 +20,13 @@
       </form>
 
       <section class="chat-page__portfolio">
-        <h2 class="chat-page__portfolio-title">Portfolio</h2>
+        <h2 class="chat-page__section-title">Portfolio</h2>
         <PortfolioTable />
+      </section>
+
+      <section class="chat-page__orders">
+        <h2 class="chat-page__section-title">Orders</h2>
+        <OrdersTable />
       </section>
     </div>
   </article>
@@ -36,6 +41,7 @@ import { BaseButton } from '@/shared/ui/button';
 import { BaseInput } from '@/shared/ui/input';
 
 import { PortfolioTable } from '@/features/portfolio';
+import { OrdersTable } from '@/features/orders';
 
 const {
   isLoading: isLoadingPrompt,
@@ -76,7 +82,11 @@ async function onSubmitPrompt() {
   margin-top: 36px;
 }
 
-.chat-page__portfolio-title {
+.chat-page__orders {
+  margin-top: 36px;
+}
+
+.chat-page__section-title {
   text-align: left;
 }
 
