@@ -25,9 +25,9 @@
 import { ref } from 'vue';
 
 import emitter from '@/shared/utils/emitter';
-import { useConversation } from '@/features/conversation';
+import { useConversation } from '@/features/conversation_admin';
 import { PromptForm } from '@/features/prompt-form';
-import { ConversationItem } from '@/features/conversation';
+import { ConversationItem } from '@/features/conversation_admin';
 
 const {
   isLoading: isLoadingPrompt,
@@ -43,7 +43,7 @@ async function onSubmitPrompt(value) {
     });
     const resData = await sendPrompt(value);
 
-    conversation.value[conversation.value.length - 1].answer = resData.response;
+    conversation.value[conversation.value.length - 1].answer = resData;
 
     emitter.emit('new-admin-prompt');
   } catch (err) {
