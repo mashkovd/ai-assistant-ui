@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import baseApi from '@/shared/api';
 
 export function usePortfolio() {
+  const data = ref(null);
   const isLoading = ref(false);
   const errorMessage = ref('');
 
@@ -10,21 +11,20 @@ export function usePortfolio() {
     errorMessage.value = '';
 
     try {
-      const response = await baseApi.post(
-        "/portfolio",
-        {},
-      );
+      const response = await baseApi.post("/portfolio", {});
 
-      console.log("Order response:", response.data);
+      console.log("Portfolio response:", response.data);
+      data.value = response.data?.portfolio;
     } catch (error) {
-      console.error("Error placing order:", error);
-      errorMessage.value = "Failed to place the order. Try again.";
+      errorMessage.value = "Failed to load portfolio. Try again.";
+      throw error;
     } finally {
       isLoading.value = false;
     }
   }
 
   return {
+    data,
     isLoading,
     errorMessage,
     getPortfolio,

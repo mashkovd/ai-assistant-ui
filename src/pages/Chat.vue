@@ -11,40 +11,45 @@
           placeholder="I want to buy Nvidia"
           class="prompt-form__input"
         />
-        <BaseButton class="prompt-form__submit">
+        <BaseButton
+          class="prompt-form__submit"
+          :disabled="isLoadingPrompt"
+        >
           Send
         </BaseButton>
       </form>
+
+      <PortfolioTable class="chat-page__portfolio" />
     </div>
   </article>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
+import emitter from '@/shared/utils/emitter';
 import { useConversation } from '@/features/conversation';
-import { usePortfolio } from '@/features/portfolio';
 import { BaseButton } from '@/shared/ui/button';
 import { BaseInput } from '@/shared/ui/input';
 
+import { PortfolioTable } from '@/features/portfolio';
+
 const {
   isLoading: isLoadingPrompt,
-  errorMessage: promptError,
+  errorMessage,
   sendPrompt,
 } = useConversation();
 
-const {
-  isLoading: isLoadingPortfolio,
-  errorMessage: portfolioError,
-  getPortfolio,
-} = usePortfolio();
-
-const isLoading = computed(() => isLoadingPrompt || isLoadingPortfolio);
-
 const prompt = ref('');
 
-function onSubmitPrompt() {
-  sendPrompt(prompt.value);
+async function onSubmitPrompt() {
+  try {
+    await sendPrompt(prompt.value);
+
+    emitter.emit('new-prompt');
+  } catch (err) {
+    console.error('Prompt sending error', err);
+  }
 }
 </script>
 
@@ -58,6 +63,10 @@ function onSubmitPrompt() {
   width: 800px;
   margin: 0 auto;
   text-align: center;
+}
+
+.chat-page__portfolio {
+  margin-top: 32px;
 }
 
 .prompt-form {

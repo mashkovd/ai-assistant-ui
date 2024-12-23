@@ -17,8 +17,8 @@ export function useConversation() {
 
       console.log("Prompt response:", response.data);
     } catch (error) {
-      console.error("Error sending prompt:", error);
       errorMessage.value = "Failed to send the prompt. Try again.";
+      throw error;
     } finally {
       isLoading.value = false;
     }
