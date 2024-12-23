@@ -1,34 +1,31 @@
 <template>
-  <main class="border rounded mx-auto my-5 p-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1>Chat with AI Assistant</h1>
+  <article class="chat-page">
+    <div class="chat-page__container">
+      <h1>Type command for buying stocks</h1>
+
+      <form class="prompt-form" @submit.prevent="onSubmitPrompt">
+        <BaseInput
+          v-model="prompt"
+          id="prompt"
+          name="prompt"
+          placeholder="I want to buy Nvidia"
+          class="prompt-form__input"
+        />
+        <BaseButton class="prompt-form__submit">
+          Send
+        </BaseButton>
+      </form>
     </div>
-    <p>Type command for buying stocks</p>
-    <div id="conversation" class="px-2"></div>
-    <div class="d-flex justify-content-center mb-3">
-      <div :class="spinnerClass"></div>
-    </div>
-    <form @submit.prevent="onSubmitPrompt">
-      <input v-model="prompt" id="prompt-input" name="prompt" class="form-control" />
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary mt-2">Send</button>
-      </div>
-    </form>
-    <form @submit.prevent="getPortfolio">
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary mt-2">Portfolio</button>
-      </div>
-    </form>
-    <div v-if="promptError || portfolioError" class="text-danger">
-      {{ promptError || portfolioError }}
-    </div>
-  </main>
+  </article>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+
 import { useConversation } from '@/features/conversation';
 import { usePortfolio } from '@/features/portfolio';
+import { BaseButton } from '@/shared/ui/button';
+import { BaseInput } from '@/shared/ui/input';
 
 const {
   isLoading: isLoadingPrompt,
@@ -44,20 +41,32 @@ const {
 
 const isLoading = computed(() => isLoadingPrompt || isLoadingPortfolio);
 
-const spinnerClass = computed(() => ({
-  "opacity-0": !isLoading,
-  "opacity-1 active": isLoading,
-  "transition-opacity": true,
-  "rounded-circle": true,
-  "border": true,
-  "border-bottom-color-transparent": true,
-  "width-30": true,
-  "height-30": true,
-}));
-
 const prompt = ref('');
 
 function onSubmitPrompt() {
   sendPrompt(prompt.value);
 }
 </script>
+
+<style>
+.chat-page {
+  padding: 20px 0;
+  height: 100%;
+}
+
+.chat-page__container {
+  width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.prompt-form {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.prompt-form__input {
+  flex-grow: 1;
+}
+</style>
