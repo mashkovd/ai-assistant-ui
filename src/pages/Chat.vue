@@ -3,21 +3,11 @@
     <div class="chat-page__container">
       <h1 class="chat-page__title">Type command for buying stocks</h1>
 
-      <form class="prompt-form" @submit.prevent="onSubmitPrompt">
-        <BaseInput
-          v-model="prompt"
-          id="prompt"
-          name="prompt"
-          placeholder="I want to buy 5 Nvidia stocks..."
-          class="prompt-form__input"
-        />
-        <BaseButton
-          class="prompt-form__submit"
-          :disabled="isLoadingPrompt"
-        >
-          Send
-        </BaseButton>
-      </form>
+      <PromptForm
+        placeholder="I want to buy 5 Nvidia stocks..."
+        :is-loading="isLoadingPrompt"
+        @submit="onSubmitPrompt"
+      />
 
       <section class="chat-page__portfolio">
         <h2 class="chat-page__section-title">Portfolio</h2>
@@ -33,13 +23,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
 import emitter from '@/shared/utils/emitter';
 import { useConversation } from '@/features/conversation';
-import { BaseButton } from '@/shared/ui/button';
-import { BaseInput } from '@/shared/ui/input';
-
+import { PromptForm } from '@/features/prompt-form';
 import { PortfolioTable } from '@/features/portfolio';
 import { OrdersTable } from '@/features/orders';
 
@@ -49,11 +35,9 @@ const {
   sendPrompt,
 } = useConversation();
 
-const prompt = ref('');
-
-async function onSubmitPrompt() {
+async function onSubmitPrompt(value) {
   try {
-    await sendPrompt(prompt.value);
+    await sendPrompt(value);
 
     emitter.emit('new-prompt');
   } catch (err) {
@@ -88,16 +72,6 @@ async function onSubmitPrompt() {
 
 .chat-page__section-title {
   text-align: left;
-}
-
-.prompt-form {
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
-}
-
-.prompt-form__input {
-  flex-grow: 1;
 }
 
 @media screen and (max-width: 1024px) {

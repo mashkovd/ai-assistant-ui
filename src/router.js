@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Main from './pages/Main.vue';
 const Chat = () => import('./pages/Chat.vue');
+const Admin = () => import('./pages/Admin.vue');
 const AuthRoot = () => import('./pages/AuthRoot.vue');
 const AuthForm = () => import('./pages/AuthForm.vue');
 const AuthCallback = () => import('./pages/AuthCallback.vue');
@@ -17,6 +18,11 @@ const routes = [
     path: '/chat',
     component: Chat,
     name: 'Chat',
+  },
+  {
+    path: '/admin',
+    component: Admin,
+    name: 'Admin',
   },
   {
     path: '/auth',
