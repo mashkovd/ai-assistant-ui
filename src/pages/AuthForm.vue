@@ -12,14 +12,7 @@
 import { onMounted } from 'vue';
 import { useAuth } from '@/features/auth';
 
-const { loginWithGoogle, handleGoogleCallback } = useAuth();
-
-onMounted(() => {
-  const currentPath = window.location.pathname;
-  if (currentPath === "/auth/google/callback") {
-    handleGoogleCallback();
-  }
-});
+const { loginWithGoogle } = useAuth();
 </script>
 
 <style>

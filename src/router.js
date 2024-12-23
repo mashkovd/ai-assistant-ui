@@ -11,6 +11,7 @@ const routes = [
     path: '/',
     component: Main,
     name: 'Main',
+    redirect: { name: 'Chat' },
   },
   {
     path: '/chat',

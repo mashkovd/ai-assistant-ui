@@ -8,105 +8,56 @@
     <div class="d-flex justify-content-center mb-3">
       <div :class="spinnerClass"></div>
     </div>
-    <form @submit.prevent="sendPrompt">
+    <form @submit.prevent="onSubmitPrompt">
       <input v-model="prompt" id="prompt-input" name="prompt" class="form-control" />
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary mt-2">Send</button>
       </div>
     </form>
-        <form @submit.prevent="getPortfolio">
+    <form @submit.prevent="getPortfolio">
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary mt-2">Portfolio</button>
       </div>
     </form>
-    <div v-if="errorMessage" class="text-danger">
-      {{ errorMessage }}
+    <div v-if="promptError || portfolioError" class="text-danger">
+      {{ promptError || portfolioError }}
     </div>
   </main>
 </template>
 
-<script>
-import axios from "axios";
+<script setup>
+import { ref, computed } from 'vue';
+import { useConversation } from '@/features/conversation';
+import { usePortfolio } from '@/features/portfolio';
 
-export default {
-  data() {
-    return {
-      prompt: "",
-      spinnerActive: false,
-      errorMessage: null,
-    };
-  },
-  computed: {
-    spinnerClass() {
-      return {
-        "opacity-0": !this.spinnerActive,
-        "opacity-1 active": this.spinnerActive,
-        "transition-opacity": true,
-        "rounded-circle": true,
-        "border": true,
-        "border-bottom-color-transparent": true,
-        "width-30": true,
-        "height-30": true,
-      };
-    },
-  },
-  methods: {
-    async sendPrompt() {
-      this.spinnerActive = true;
-      try {
-        const token = localStorage.getItem("auth_token");
-        const response = await axios.post(
-          "/chat",
-          { prompt: this.prompt },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+const {
+  isLoading: isLoadingPrompt,
+  errorMessage: promptError,
+  sendPrompt,
+} = useConversation();
 
-        console.log("Prompt response:", response.data);
-        this.errorMessage = null;
-      } catch (error) {
-        console.error("Error sending prompt:", error);
-        this.errorMessage = "Failed to send the prompt. Try again.";
-      } finally {
-        this.spinnerActive = false;
-      }
-    },
-    async getPortfolio() {
-      this.spinnerActive = true;
-      try {
-        const token = localStorage.getItem("auth_token");
-        const response = await axios.post(
-          "/portfolio",
-            {},
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        console.log("Order response:", response.data);
-        this.errorMessage = null;
-      } catch (error) {
-        console.error("Error placing order:", error);
-        this.errorMessage = "Failed to place the order. Try again.";
-      }
-    },
-    logout() {
-      localStorage.removeItem("auth_token");
-      window.location.href = "/login";
-    },
-    async checkAuthStatus() {
-      const token = localStorage.getItem("auth_token");
-      if (!token) {
-        window.location.href = "/login";
-      }
-    },
-    extractTokenFromUrl() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get("token");
-      if (token) {
-        localStorage.setItem("auth_token", token);
-      }
-    },
-  },
-  mounted() {
-    this.extractTokenFromUrl();
-    this.checkAuthStatus();
-  },
-};
+const {
+  isLoading: isLoadingPortfolio,
+  errorMessage: portfolioError,
+  getPortfolio,
+} = usePortfolio();
+
+const isLoading = computed(() => isLoadingPrompt || isLoadingPortfolio);
+
+const spinnerClass = computed(() => ({
+  "opacity-0": !isLoading,
+  "opacity-1 active": isLoading,
+  "transition-opacity": true,
+  "rounded-circle": true,
+  "border": true,
+  "border-bottom-color-transparent": true,
+  "width-30": true,
+  "height-30": true,
+}));
+
+const prompt = ref('');
+
+function onSubmitPrompt() {
+  sendPrompt(prompt.value);
+}
 </script>
