@@ -1,10 +1,10 @@
 <template>
   <article class="chat-page">
     <div class="chat-page__container">
-      <h1 class="chat-page__title">Type command for buying stocks</h1>
+      <h1 class="chat-page__title">Enter a command to buy or sell stocks</h1>
 
       <PromptForm
-        placeholder="I want to buy 5 Nvidia stocks..."
+        placeholder="e.g., Buy 5 Nvidia stocks"
         :is-loading="isLoadingPrompt"
         @submit="onSubmitPrompt"
       />

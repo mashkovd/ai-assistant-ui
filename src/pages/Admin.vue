@@ -4,7 +4,7 @@
       <h1 class="chat-page__title">Hello, admin</h1>
 
       <PromptForm
-        placeholder="Placeholder for admin"
+        placeholder="Ask a question about portfolio or orders"
         :is-loading="isLoadingPrompt"
         @submit="onSubmitPrompt"
       />
