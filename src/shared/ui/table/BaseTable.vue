@@ -9,6 +9,7 @@
         </tr>
       </thead>
       <tbody>
+        <div v-if="isLoading" class="base-table__preloader">Loading...</div>
         <template v-if="noData">
           <tr>
             <td :colspan="columns.length" class="base-table__no-data">
@@ -89,6 +90,21 @@ const noData = computed(() => !props.data || !props.data.length);
 }
 
 .base-table__no-data {
+  text-align: center;
+}
+
+.base-table__preloader {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #fff;
   text-align: center;
 }
 

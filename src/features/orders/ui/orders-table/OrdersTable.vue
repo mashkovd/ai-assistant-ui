@@ -3,18 +3,19 @@
     :columns="columns"
     :data="data"
     :is-loading="isLoading"
-    class="portfolio-table"
+    class="orders-table"
   />
 </template>
 
 <script setup>
 import emitter from '@/shared/utils/emitter';
-import { usePortfolio } from '@/features/portfolio';
+import { useOrders } from '@/features/orders';
 import { BaseTable } from '@/shared/ui/table';
 
 const columns = [
   { name: 'symbol', label: 'Symbol' },
   { name: 'alias', label: 'Alias' },
+  { name: 'action', label: 'Act' },
   { name: 'quantity', label: 'Quantity' },
   { name: 'rate', label: 'Rate' },
 ];
@@ -23,20 +24,20 @@ const {
   data,
   isLoading,
   errorMessage,
-  getPortfolio,
-} = usePortfolio();
+  getOrders,
+} = useOrders();
 
 function updateData() {
-  getPortfolio();
+  getOrders();
 }
 
 emitter.on('new-prompt', updateData);
 
 async function init() {
   try {
-    getPortfolio();
+    getOrders();
   } catch (err) {
-    console.error('Portfolio loading error', err);
+    console.error('Orders loading error', err);
   }
 }
 
