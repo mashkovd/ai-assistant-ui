@@ -13,9 +13,9 @@
       <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary mt-2">Send</button>
       </div>
-      <div class="d-flex justify-content-end">
-        <button type="button" @click="placeOrder" class="btn btn-primary mt-2">Order</button>
-      </div>
+<!--      <div class="d-flex justify-content-end">-->
+<!--        <button type="button" @click="placeOrder" class="btn btn-primary mt-2">Order</button>-->
+<!--      </div>-->
     </form>
     <div v-if="errorMessage" class="text-danger">
       {{ errorMessage }}
