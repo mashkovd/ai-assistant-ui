@@ -76,6 +76,7 @@ export default {
         const token = localStorage.getItem("auth_token");
         const response = await axios.post(
           "/portfolio",
+            {},
           { headers: { Authorization: `Bearer ${token}` } }
         );
         console.log("Order response:", response.data);
